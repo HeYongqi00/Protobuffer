@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(MyProject)
+project(protobuf)
 
 # 查找 Protocol Buffers 库
 find_package(Protobuf REQUIRED)
@@ -19,7 +19,7 @@ include_directories(${PROTOBUF_OUTPUT_PATH})
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
 
 # 添加可执行文件
-add_executable(main main.cpp ${PROTO_SRCS} ${PROTO_HDRS})
+add_executable(${PROJECT_NAME} main.cpp ${PROTO_SRCS} ${PROTO_HDRS})
 
 # 链接 Protocol Buffers 库
-target_link_libraries(main ${PROTOBUF_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${PROTOBUF_LIBRARIES})
