@@ -13,5 +13,32 @@ cmake ..; make
 ```
 3. 运行可执行文件
 ```linux
-./main
+./protobuf
+```
+-- -- 
+如何在ROS2 C++中使用
+1. 编译生成对应的C++文件
+```linux
+protoc --cpp_out=. message.proto # .表示当前路径，在当前路径下编译message.proto文件生成message.pb.h 和 message.pb.cc文件
+```
+2. 更改对应功能包的CMakeList文件，以下加入到对应位置中
+```
+# 查找 Protocol Buffers 库
+find_package(Protobuf REQUIRED)
+
+# 包含生成的头文件  proto生成的文件在proto路径下
+include_directories(
+  proto
+)
+
+# 查找添加proto文件夹中生成的所有文件
+File(GLOB MAIN_PROTO ${CMAKE_CURRENT_SOURCE_DIR}/proto/*)
+
+# 生成可执行文件
+add_executable(${PROJECT_NAME}
+  src/main.cpp
+  ${MAIN_PROTO})
+
+# 链接到protobuf的动态库
+target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${PROTOBUF_LIBRARIES})
 ```
